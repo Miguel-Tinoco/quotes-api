@@ -8,8 +8,17 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 data class ListQuoteRepresenter(
     val statusCode: String,
     val message: String,
-    val data: List<QuoteRepresenter>,
-    )
+    val pagination: Pagination,
+    val totalQuotes: Long,
+    val data: List<QuoteRepresenter>
+)
+
+@JsonNaming(LowerCamelCaseStrategy::class)
+data class Pagination(
+    val currentPage: Int,
+    val nextPage: Int?,
+    val totalPages: Int
+)
 
 @JsonNaming(LowerCamelCaseStrategy::class)
 data class QuoteRepresenter(
