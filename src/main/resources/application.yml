@@ -1,2 +1,23 @@
+server:
+  port: 8080
+  shutdown: graceful
+
 spring:
-  data: mongodb.uri=mongodb://localhost:27017/quotes
+  lifecycle:
+    timeout-per-shutdown-phase: ${GRACEFUL_SHUTDOWN_TIMEOUT:15s}
+  profiles:
+    active: ${ENVIRONMENT:development}
+  main:
+    banner-mode: off
+  sleuth:
+    traceId128: true
+    sampler:
+      probability: 1.0
+  data:
+    mongodb:
+      host: localhost
+      database: quoteGarden
+      uri: mongodb://localhost/quoteGarden
+#      uri: mongodb://mongodb/quoteGarden
+
+environment: ${ENVIRONMENT:development}

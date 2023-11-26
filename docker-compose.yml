@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  common: &BASE
+    build:
+      context: .
+    volumes:
+      - .:/app
+
+  app:
+    <<: *BASE
+    ports:
+      - "8080:8080"
+    command: ./gradlew bootRun
+    depends_on:
+      - mongodb
+      - mongo-seed
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    networks:
+      default:
+        aliases:
+          - mongodb
+    ports:
+      - '27017:27017'
+
+  mongo-seed:
+    build: ./mongoSeed
+    depends_on:
+      - mongodb
+
+  lint:
+    <<: *BASE
+    command: ./gradlew ktlintCheck
+
+  test:
+    <<: *BASE
+    command: ./gradlew test
+    depends_on:
+      - mongo-seed

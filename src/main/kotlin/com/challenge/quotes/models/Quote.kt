@@ -1,12 +1,20 @@
 package com.challenge.quotes.models
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
 
-@Document(collection = "quotes")
-class Quote (
-    val _id: String,
+@Document(collection = "Quotes")
+class Quote(
+    @Id
+    val id: String,
+
     val quoteText: String,
+
     val quoteAuthor: String,
+
     val quoteGenre: String,
-    val __v: Int
+
+    @Field("__v")
+    val version: Long
 )

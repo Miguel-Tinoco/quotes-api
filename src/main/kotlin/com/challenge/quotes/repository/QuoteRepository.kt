@@ -5,6 +5,4 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface QuoteRepository : ReactiveMongoRepository<Quote, String> {
-    fun findByQuoteAuthor(author: String): List<Quote>
-}
+interface QuoteRepository : ReactiveMongoRepository<Quote, String>
