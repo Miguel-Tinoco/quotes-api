@@ -1,4 +1,4 @@
-package com.challenge.quotes.integration.unit
+package com.challenge.quotes.unit
 
 import com.challenge.quotes.exceptions.ErrorType
 import com.challenge.quotes.exceptions.ResourceNotFoundException
