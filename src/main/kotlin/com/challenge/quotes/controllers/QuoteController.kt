@@ -23,16 +23,19 @@ class QuoteController(
     private val pageableService: PageableService
 ) {
     fun list(request: ServerRequest): Mono<ServerResponse> {
-        val page = pageableService.getFilter(request)
-        val pageable = PageRequest.of(page - 1, SIZE)
+        val page = pageableService.getPage(request)
+        val limit = pageableService.getLimit(request)
+        val pageable = PageRequest.of(page - 1, limit)
 
-        val totalQuotes = quotesService.countQuotes()
-        val quotesList = quotesService.getAllQuotes(pageable).map { quote ->
+        val author = request.queryParam(AUTHOR).orElse(null)
+
+        val totalQuotes = quotesService.countQuotes(author)
+        val quotesList = quotesService.getAllQuotes(pageable, author).map { quote ->
             QuoteRepresenter(quote)
         }.collectList()
 
         return Mono.zip(totalQuotes, quotesList).flatMap { (total, quotesRepresenter) ->
-            val totalPages = pageableService.getTotalPages(SIZE, total)
+            val totalPages = pageableService.getTotalPages(limit, total)
             val nextPage = pageableService.getNextPage(page, totalPages)
             val pagination = Pagination(page, nextPage, totalPages)
 
@@ -66,6 +69,7 @@ class QuoteController(
         const val QUOTE_ID = "quoteId"
         const val QUOTES = "Quotes"
         const val HTTP_OK = "200"
-        const val SIZE = 10
+        const val AUTHOR = "author"
+        const val GENRE = "genre"
     }
 }
