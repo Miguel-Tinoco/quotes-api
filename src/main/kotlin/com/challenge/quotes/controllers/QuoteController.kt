@@ -54,6 +54,8 @@ class QuoteController(
     }
 
     fun read(request: ServerRequest): Mono<ServerResponse> {
+        val author = request.queryParam(AUTHOR).orElse(null)
+
         return quotesService.getQuoteById(request.pathVariable(QUOTE_ID)).flatMap { quote ->
             ServerResponse.ok().body(
                 fromValue(
@@ -70,6 +72,5 @@ class QuoteController(
         const val QUOTES = "Quotes"
         const val HTTP_OK = "200"
         const val AUTHOR = "author"
-        const val GENRE = "genre"
     }
 }

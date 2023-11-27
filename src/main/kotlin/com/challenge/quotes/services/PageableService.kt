@@ -1,8 +1,5 @@
 package com.challenge.quotes.services
 
-import org.springframework.data.domain.AbstractPageRequest
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.server.ServerRequest
 import kotlin.math.ceil
