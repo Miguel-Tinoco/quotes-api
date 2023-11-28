@@ -1,6 +1,9 @@
 package com.challenge.quotes.integration.read
 
 import com.challenge.quotes.integration.IntegrationTests
+import com.challenge.quotes.models.Quote
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -10,6 +13,26 @@ import org.springframework.http.MediaType
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("When making a get by quote id")
 class ReadQuotesTest : IntegrationTests() {
+
+    private val quote =
+        Quote(
+            "656353343c625cdf90608b5c",
+            "Cowards die many times before their deaths the valiant never taste of death but once.",
+            "William Shakespeare",
+            "death",
+            0
+        )
+
+    @BeforeEach
+    fun beforeEach() {
+        quoteRepository.save(quote).block()
+    }
+
+    @AfterEach
+    fun afterEach() {
+        quoteRepository.delete(quote).block()
+    }
+
     @Nested
     @DisplayName("and the quote id exists")
     inner class QuoteIdExists {

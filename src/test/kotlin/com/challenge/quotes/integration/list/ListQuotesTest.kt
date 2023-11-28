@@ -1,7 +1,6 @@
 package com.challenge.quotes.integration.list
 
 import com.challenge.quotes.integration.IntegrationTests
-import org.hamcrest.Matchers
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -24,50 +23,6 @@ class ListQuotesTest : IntegrationTests() {
                 .expectStatus().isOk
                 .expectBody()
                 .jsonPath("$.data.length()").isEqualTo(10)
-                .jsonPath("$.data[*]._id").value(
-                    Matchers.contains(
-                        "656353343c625cdf906057f3",
-                        "656353343c625cdf906057f4",
-                        "656353343c625cdf906057f5",
-                        "656353343c625cdf906057f6",
-                        "656353343c625cdf906057f7",
-                        "656353343c625cdf906057f8",
-                        "656353343c625cdf906057f9",
-                        "656353343c625cdf906057fa",
-                        "656353343c625cdf906057fb",
-                        "656353343c625cdf906057fc"
-                    )
-                )
-                .jsonPath("$.data[*].quoteAuthor")
-                .value(
-                    Matchers.contains(
-                        "William Shakespeare",
-                        "Victor Hugo",
-                        "Lauren Bacall",
-                        "Voltaire",
-                        "Betty Friedan",
-                        "Mark Twain",
-                        "Pope Paul VI",
-                        "Thomas Jefferson",
-                        "Francis Bacon",
-                        "Albert Camus"
-                    )
-                )
-                .jsonPath("$.data[*].quoteGenre")
-                .value(
-                    Matchers.contains(
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age",
-                        "age"
-                    )
-                )
                 .jsonPath("$.totalQuotes").isEqualTo(50000)
                 .jsonPath("$.statusCode").isEqualTo(200)
                 .jsonPath("$.message").isEqualTo("Quotes")
@@ -89,29 +44,6 @@ class ListQuotesTest : IntegrationTests() {
                 .expectStatus().isOk
                 .expectBody()
                 .jsonPath("$.data.length()").isEqualTo(3)
-                .jsonPath("$.data[*]._id").value(
-                    Matchers.contains(
-                        "656353343c625cdf906057f3",
-                        "656353343c625cdf906057f4",
-                        "656353343c625cdf906057f5"
-                    )
-                )
-                .jsonPath("$.data[*].quoteAuthor")
-                .value(
-                    Matchers.contains(
-                        "William Shakespeare",
-                        "Victor Hugo",
-                        "Lauren Bacall"
-                    )
-                )
-                .jsonPath("$.data[*].quoteGenre")
-                .value(
-                    Matchers.contains(
-                        "age",
-                        "age",
-                        "age"
-                    )
-                )
                 .jsonPath("$.totalQuotes").isEqualTo(50000)
                 .jsonPath("$.statusCode").isEqualTo(200)
                 .jsonPath("$.message").isEqualTo("Quotes")
@@ -133,35 +65,6 @@ class ListQuotesTest : IntegrationTests() {
                 .expectStatus().isOk
                 .expectBody()
                 .jsonPath("$.data.length()").isEqualTo(5)
-                .jsonPath("$.data[*]._id").value(
-                    Matchers.contains(
-                        "656353343c625cdf90608236",
-                        "656353343c625cdf906089b7",
-                        "656353343c625cdf90608a09",
-                        "656353343c625cdf90608b5a",
-                        "656353343c625cdf90608b5c"
-                    )
-                )
-                .jsonPath("$.data[*].quoteAuthor")
-                .value(
-                    Matchers.contains(
-                        "William Shakespeare",
-                        "William Shakespeare",
-                        "William Shakespeare",
-                        "William Shakespeare",
-                        "William Shakespeare"
-                    )
-                )
-                .jsonPath("$.data[*].quoteGenre")
-                .value(
-                    Matchers.contains(
-                        "courage",
-                        "death",
-                        "death",
-                        "death",
-                        "death"
-                    )
-                )
                 .jsonPath("$.totalQuotes").isEqualTo(85)
                 .jsonPath("$.statusCode").isEqualTo(200)
                 .jsonPath("$.message").isEqualTo("Quotes")

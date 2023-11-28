@@ -1,6 +1,7 @@
 package com.challenge.quotes.repository
 
 import com.challenge.quotes.models.Quote
+import com.mongodb.client.result.DeleteResult
 import org.springframework.data.domain.Pageable
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
@@ -35,6 +36,14 @@ class QuoteRepository(
         }
 
         return reactiveMongoTemplate.count(Query(), Quote::class.java)
+    }
+
+    fun save(quote: Quote): Mono<Quote> {
+        return reactiveMongoTemplate.save(quote)
+    }
+
+    fun delete(quote: Quote): Mono<DeleteResult> {
+        return reactiveMongoTemplate.remove(quote)
     }
 
     companion object {

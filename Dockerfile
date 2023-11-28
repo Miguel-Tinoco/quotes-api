@@ -14,7 +14,7 @@ COPY settings.gradle.kts /app
 COPY src /app/src
 
 # Build the application
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
 # Use a lightweight Java runtime as the final image
 FROM openjdk:17-jdk-slim

@@ -53,8 +53,6 @@ class QuoteController(
     }
 
     fun read(request: ServerRequest): Mono<ServerResponse> {
-        val author = request.queryParam(AUTHOR).orElse(null)
-
         return quotesService.getById(request.pathVariable(QUOTE_ID)).flatMap { quote ->
             ServerResponse.ok().body(
                 fromValue(

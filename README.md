@@ -19,6 +19,10 @@ To run the application locally, follow these steps:
 docker-compose build app && docker-compose run -p 8080:8080 app
 ```
 ##### 3.2. Run Tests
+In order to ensure that the database is correctly populated, run the following command first:
+```bash
+docker compose down; docker volume prune -f; docker system prune -a
+```
 This will run the unit and integrations test
 ```bash
 docker-compose build app && docker-compose run test

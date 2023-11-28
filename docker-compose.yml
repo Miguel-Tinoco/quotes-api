@@ -11,7 +11,7 @@ services:
     <<: *BASE
     ports:
       - "8080:8080"
-    command: ./gradlew bootRun -x test
+    command: ./gradlew bootRun
     depends_on:
       - mongodb
       - mongo-seed
