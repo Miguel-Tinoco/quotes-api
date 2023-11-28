@@ -6,24 +6,12 @@ import kotlin.math.ceil
 
 @Service
 class PageableService {
-//    fun getFilter(request: ServerRequest): PageableFilter {
-//        val page = request.queryParam(PAGE_PARAM).orElse(DEFAULT_PAGE_VALUE).toIntOrNull()
-//        val limit = request.queryParam(LIMIT_PER_PAGE).orElse(DEFAULT_LIMIT_PER_PAGE).toIntOrNull()
-//
-//        return PageableFilter(
-//            page!!,
-//            limit!!
-//        )
-//    }
-
     fun getLimit(request: ServerRequest): Int {
-        val limit = request.queryParam(LIMIT_PER_PAGE).orElse(DEFAULT_LIMIT_PER_PAGE).toIntOrNull()
-        return limit!!
+        return request.queryParam(LIMIT_PER_PAGE).orElse(DEFAULT_LIMIT_PER_PAGE).toInt()
     }
 
     fun getPage(request: ServerRequest): Int {
-        val page = request.queryParam(PAGE_PARAM).orElse(DEFAULT_PAGE_VALUE).toIntOrNull()
-        return page!!
+        return request.queryParam(PAGE_PARAM).orElse(DEFAULT_PAGE_VALUE).toInt()
     }
 
     fun getTotalPages(size: Int, total: Long): Int {
@@ -31,17 +19,8 @@ class PageableService {
     }
 
     fun getNextPage(page: Int, totalPages: Int): Int? {
-        return when {
-            page < totalPages -> page + 1
-            page == totalPages -> null
-            else -> null
-        }
+        return if (page < totalPages) page + 1 else null
     }
-
-//    data class PageableFilter(
-//        val page: Int,
-//        val limit: Int
-//    )
 
     companion object {
         private const val DEFAULT_PAGE_VALUE = "1"

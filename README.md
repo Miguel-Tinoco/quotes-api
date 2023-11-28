@@ -19,9 +19,9 @@ To run the application locally, follow these steps:
 docker-compose build app && docker-compose run -p 8080:8080 app
 ```
 ##### 3.2. Run Tests
-This will run the unit and integrations tests
+This will run the unit and integrations test
 ```bash
-docker-compose build app && docker-compose run tests
+docker-compose build app && docker-compose run test
 ```
 ##### 3.3. Run Lint (Ktlint Check)
 ```bash

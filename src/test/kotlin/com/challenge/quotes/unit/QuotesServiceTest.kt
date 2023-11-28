@@ -16,7 +16,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate
 import org.springframework.http.HttpStatus
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -27,11 +26,8 @@ internal class QuotesServiceTest {
     @Mock
     private val quoteRepository = mock<QuoteRepository>()
 
-    @Mock
-    private val reactiveMongoTemplate = mock<ReactiveMongoTemplate>()
-
     @InjectMocks
-    private val quotesService = QuotesService(quoteRepository, reactiveMongoTemplate)
+    private val quotesService = QuotesService(quoteRepository)
 
     @Test
     fun `and the getQuoteByID is called with a valid id, it should return the quote`() {
@@ -44,7 +40,7 @@ internal class QuotesServiceTest {
         )
         Mockito.`when`(quoteRepository.findById("5eb17aaeb69dc744b4e73a08")).thenReturn(Mono.just(quote))
 
-        val result = quotesService.getQuoteById("5eb17aaeb69dc744b4e73a08").block()!!
+        val result = quotesService.getById("5eb17aaeb69dc744b4e73a08").block()!!
 
         assertEquals(quote.id, result.id)
         assertEquals(quote.quoteText, result.quoteText)
@@ -59,7 +55,7 @@ internal class QuotesServiceTest {
 
         val exception =
             Assertions.assertThrows(Exception::class.java) {
-                quotesService.getQuoteById("NotFoundId").block()
+                quotesService.getById("NotFoundId").block()
             }
 
         val causeException = exception.cause as ResourceNotFoundException
@@ -95,10 +91,10 @@ internal class QuotesServiceTest {
         val limit = 3
 
         val pageable = PageRequest.of(page - 1, limit)
-        Mockito.`when`(quoteRepository.findByIdNotNull(pageable))
+        Mockito.`when`(quoteRepository.findAll(pageable))
             .thenReturn(Flux.just(quote1, quote2, quote3))
 
-        val result = quotesService.getAllQuotes(pageable, null).collectList().block()
+        val result = quotesService.getAll(pageable).collectList().block()
         assertEquals(3, result!!.count())
     }
 
@@ -131,10 +127,10 @@ internal class QuotesServiceTest {
         val author = "Bette Davis"
 
         val pageable = PageRequest.of(page - 1, limit)
-        Mockito.`when`(quoteRepository.findByQuoteAuthor(author, pageable))
+        Mockito.`when`(quoteRepository.findAll(pageable, author))
             .thenReturn(Flux.just(quote1, quote2, quote3))
 
-        val result = quotesService.getAllQuotes(pageable, author).collectList().block()
+        val result = quotesService.getAll(pageable, author).collectList().block()
         assertEquals(3, result!!.count())
     }
 }

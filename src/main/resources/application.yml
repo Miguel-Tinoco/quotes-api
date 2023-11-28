@@ -17,7 +17,6 @@ spring:
     mongodb:
       host: localhost
       database: quoteGarden
-      uri: mongodb://localhost/quoteGarden
-#      uri: mongodb://mongodb/quoteGarden
+      uri: mongodb://mongodb/quoteGarden
 
 environment: ${ENVIRONMENT:development}

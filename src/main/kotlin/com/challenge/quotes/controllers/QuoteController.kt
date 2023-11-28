@@ -4,7 +4,6 @@ import com.challenge.quotes.extensions.TupleExtensions.component1
 import com.challenge.quotes.extensions.TupleExtensions.component2
 import com.challenge.quotes.representer.ListQuoteRepresenter
 import com.challenge.quotes.representer.Pagination
-import com.challenge.quotes.representer.QuoteRepresenter
 import com.challenge.quotes.representer.ReadQuoteRepresenter
 import com.challenge.quotes.services.PageableService
 import com.challenge.quotes.services.QuotesService
@@ -29,9 +28,9 @@ class QuoteController(
 
         val author = request.queryParam(AUTHOR).orElse(null)
 
-        val totalQuotes = quotesService.countQuotes(author)
-        val quotesList = quotesService.getAllQuotes(pageable, author).map { quote ->
-            QuoteRepresenter(quote)
+        val totalQuotes = quotesService.count(author)
+        val quotesList = quotesService.getAll(pageable, author).map { quote ->
+            ReadQuoteRepresenter(quote)
         }.collectList()
 
         return Mono.zip(totalQuotes, quotesList).flatMap { (total, quotesRepresenter) ->
@@ -56,7 +55,7 @@ class QuoteController(
     fun read(request: ServerRequest): Mono<ServerResponse> {
         val author = request.queryParam(AUTHOR).orElse(null)
 
-        return quotesService.getQuoteById(request.pathVariable(QUOTE_ID)).flatMap { quote ->
+        return quotesService.getById(request.pathVariable(QUOTE_ID)).flatMap { quote ->
             ServerResponse.ok().body(
                 fromValue(
                     ReadQuoteRepresenter(

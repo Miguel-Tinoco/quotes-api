@@ -5,35 +5,24 @@ import com.challenge.quotes.exceptions.ResourceNotFoundException
 import com.challenge.quotes.models.Quote
 import com.challenge.quotes.repository.QuoteRepository
 import org.springframework.data.domain.Pageable
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate
-import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Service
 class QuotesService(
-    private val quoteRepository: QuoteRepository,
-    private val reactiveMongoTemplate: ReactiveMongoTemplate
+    private val quoteRepository: QuoteRepository
 ) {
-    fun getAllQuotes(pageRequest: Pageable, author: String?): Flux<Quote> {
-        return if (author != null) {
-            quoteRepository.findByQuoteAuthor(author, pageRequest)
-        } else {
-            quoteRepository.findByIdNotNull(pageRequest)
-        }
+    fun getAll(pageRequest: Pageable, author: String? = null): Flux<Quote> {
+        return quoteRepository.findAll(pageRequest, author)
     }
 
-    fun getQuoteById(id: String): Mono<Quote> {
+    fun getById(id: String): Mono<Quote> {
         return quoteRepository.findById(id)
             .switchIfEmpty(Mono.error(ResourceNotFoundException(QUOTE_NOT_FOUND)))
     }
 
-    fun countQuotes(author: String?): Mono<Long> {
-        return if (author != null) {
-            quoteRepository.countByQuoteAuthor(author)
-        } else {
-            reactiveMongoTemplate.count(Query(), Quote::class.java)
-        }
+    fun count(author: String? = null): Mono<Long> {
+        return quoteRepository.countAllQuotes(author)
     }
 }
